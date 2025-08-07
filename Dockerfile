@@ -1,6 +1,9 @@
 # Usa a imagem base do PHP 7.3 com Apache
 FROM php:7.3-apache
 
+# Define o diretório de trabalho padrão dentro do container
+WORKDIR /var/www/html
+
 # Instala pacotes necessários e extensões PHP
 RUN apt-get update && apt-get install -y \
     zip unzip git curl libzip-dev libpng-dev libonig-dev libicu-dev \
@@ -28,28 +31,6 @@ ENV TZ=America/Sao_Paulo
 RUN pecl channel-update pecl.php.net \
     && pecl install redis-5.3.7 \
     && docker-php-ext-enable redis
-
-# Define o diretório de trabalho do container
-WORKDIR /var/www/html
-
-# Copia toda a aplicação para o container primeiro para garantir que todos os arquivos estejam lá
-COPY app/laravel/ ./
-
-# Cria as pastas de cache e storage e ajusta as permissões
-RUN mkdir -p bootstrap/cache storage \
-    && chmod -R ug+rwx bootstrap storage
-
-# Instala as dependências do Composer. O flag '--no-scripts' evita o erro do artisan.
-RUN composer install --no-interaction --no-dev --prefer-dist --no-scripts
-
-# Roda os scripts do composer manualmente, agora que todos os arquivos estão disponíveis
-RUN composer run-script post-autoload-dump
-
-# Instala as dependências do Node.js
-RUN npm install
-
-# Compila os assets do frontend com o comando correto
-RUN npm run prod
 
 # O comando de início padrão para o Apache
 CMD ["apache2-foreground"]
