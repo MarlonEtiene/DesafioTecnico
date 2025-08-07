@@ -26,3 +26,20 @@ RUN pecl channel-update pecl.php.net \
 
 # Define o diretório de trabalho
 WORKDIR /var/www/html
+
+# Copia os arquivos de configuração para a instalação de dependências
+COPY composer.json composer.lock ./
+COPY package.json package-lock.json ./
+
+# Instala as dependências do Composer e do Node
+RUN composer install --no-interaction --no-dev --prefer-dist
+RUN npm install
+
+# Copia o restante da aplicação
+COPY . .
+
+# Cria as pastas de cache e storage e ajusta as permissões
+RUN mkdir -p bootstrap/cache storage && chmod -R ug+rwx bootstrap storage
+
+# Compila os assets do frontend
+RUN npm run build

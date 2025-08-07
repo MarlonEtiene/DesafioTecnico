@@ -32,7 +32,7 @@ cd [nome-da-pasta-do-projeto]
 O projeto usa um arquivo `.env` para gerenciar as variáveis de ambiente. Crie-o a partir do arquivo de exemplo:
 
 ```bash
-cp .env.example .env
+cp app/laravel/.env.example app/laravel/.env
 ```
 
 Abra o novo arquivo `.env` e ajuste as variáveis necessárias. Por padrão, as credenciais do banco de dados já devem estar configuradas para o Docker:
@@ -44,6 +44,16 @@ DB_PORT=3306
 DB_DATABASE=laravel
 DB_USERNAME=laravel
 DB_PASSWORD=secret
+```
+
+```ini
+REDIS_HOST=redis
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+```
+
+```ini
+QUEUE_CONNECTION=redis
 ```
 
 ### Passo 3: Subir os Containers do Docker
