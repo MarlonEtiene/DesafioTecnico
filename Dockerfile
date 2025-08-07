@@ -1,9 +1,14 @@
+# Usa a imagem base do PHP 7.3 com Apache
 FROM php:7.3-apache
 
 # Instala pacotes necessários e extensões PHP
 RUN apt-get update && apt-get install -y \
     zip unzip git curl libzip-dev libpng-dev libonig-dev libicu-dev \
     && docker-php-ext-install pdo pdo_mysql zip gd
+
+# Instala o Node.js 18 LTS para o frontend
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs
 
 # Instala o Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -24,22 +29,27 @@ RUN pecl channel-update pecl.php.net \
     && pecl install redis-5.3.7 \
     && docker-php-ext-enable redis
 
-# Define o diretório de trabalho
+# Define o diretório de trabalho do container
 WORKDIR /var/www/html
 
-# Copia os arquivos de configuração para a instalação de dependências
-COPY composer.json composer.lock ./
-COPY package.json package-lock.json ./
-
-# Instala as dependências do Composer e do Node
-RUN composer install --no-interaction --no-dev --prefer-dist
-RUN npm install
-
-# Copia o restante da aplicação
-COPY . .
+# Copia toda a aplicação para o container primeiro para garantir que todos os arquivos estejam lá
+COPY app/laravel/ ./
 
 # Cria as pastas de cache e storage e ajusta as permissões
-RUN mkdir -p bootstrap/cache storage && chmod -R ug+rwx bootstrap storage
+RUN mkdir -p bootstrap/cache storage \
+    && chmod -R ug+rwx bootstrap storage
 
-# Compila os assets do frontend
-RUN npm run build
+# Instala as dependências do Composer. O flag '--no-scripts' evita o erro do artisan.
+RUN composer install --no-interaction --no-dev --prefer-dist --no-scripts
+
+# Roda os scripts do composer manualmente, agora que todos os arquivos estão disponíveis
+RUN composer run-script post-autoload-dump
+
+# Instala as dependências do Node.js
+RUN npm install
+
+# Compila os assets do frontend com o comando correto
+RUN npm run prod
+
+# O comando de início padrão para o Apache
+CMD ["apache2-foreground"]
