@@ -1,0 +1,30 @@
+# Ignorar arquivos de ambiente e de log
+/app/laravel/.env
+/app/laravel/.env.local
+/app/laravel/.env.*.local
+/app/laravel/.phpunit.result.cache
+
+# Ignorar o diretório de dependências do Composer e do NPM
+/app/laravel/vendor/
+/app/laravel/node_modules/
+
+# Ignorar arquivos gerados pela aplicação e pelo build
+/app/laravel/public/css/app.css
+/app/laravel/public/js/app.js
+/app/laravel/public/mix-manifest.json
+/app/laravel/public/hot
+/app/laravel/public/storage/
+/app/laravel/bootstrap/cache/
+/app/laravel/storage/*
+!/app/laravel/storage/.gitignore
+!/app/laravel/storage/app/public/.gitignore
+!/app/laravel/storage/framework/cache/data/.gitignore
+
+# Ignorar arquivos temporários de IDEs (como o VS Code)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+.DS_Store

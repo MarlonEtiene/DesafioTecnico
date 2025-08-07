@@ -1,0 +1,48 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel8-php73
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app/laravel:/var/www/html
+    depends_on:
+      - mysql
+      - redis # <--- Adicionado aqui
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    user: "${USER_ID}:${GROUP_ID}"
+  node:
+    image: node:14
+    container_name: vue2-node
+    working_dir: /app
+    volumes:
+      - ./app/laravel:/app
+    tty: true
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql57
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+    volumes:
+      - mysql-data:/var/lib/mysql
+  redis:
+    image: redis:6-alpine
+    container_name: redis
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+
+volumes:
+  mysql-data:
+  redis-data:
