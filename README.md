@@ -8,6 +8,26 @@ Este guia foi revisado e validado para resolver problemas comuns de ordem de exe
 
 **Observação Importante:** Caso você já tenha tentado executar o projeto anteriormente e encontrado problemas, é **fundamental** que você execute o **Passo 1** para limpar o ambiente e evitar conflitos com contêineres e volumes antigos.
 
+### Recursos Implementados
+
+O projeto atende a todos os requisitos funcionais e técnicos solicitados, incluindo os itens desejáveis (bônus), conforme o seguinte resumo:
+
+* **Autenticação**: Registro e login com autenticação JWT.
+
+* **Multitenancy**: Suporte a múltiplas empresas, com isolamento de dados de tarefas e usuários.
+
+* **Gerenciamento de Tarefas**: CRUD completo para tarefas, com campos como título, descrição, status, prioridade e data limite.
+
+* **Notificações por E-mail**: Envio de e-mails para notificações ao criar ou concluir tarefas.
+
+* **Comando Interativo para a Primeira Empresa**: Um comando `artisan` interativo para cadastrar a primeira empresa e o primeiro usuário de forma rápida.
+
+* **Filas (Redis)**: Implementação de filas para o envio assíncrono de e-mails, utilizando o Redis como driver de fila.
+
+* **Exportação para CSV**: Funcionalidade para exportar a lista de tarefas em um arquivo CSV, demonstrando a geração de arquivos.
+
+* **Docker**: O projeto é completamente containerizado, utilizando Docker para facilitar a configuração e execução.
+
 ### Passo 1: Limpeza do Ambiente (Se Necessário)
 
 Execute este comando para remover todos os contêineres e volumes associados a uma instalação anterior.
