@@ -35,13 +35,15 @@ class ExportReadyNotification extends Notification
             ]
         );
 
+        $companyName = $notifiable->company->name ?? config('app.name');
         return (new MailMessage)
             ->subject('Sua exportação de tarefas está pronta!')
             ->greeting('Olá, ' . $notifiable->name)
             ->line('Sua exportação de tarefas foi concluída com sucesso.')
             ->action('Baixar o arquivo', $url)
             ->line('O link de download expirará em 60 minutos.')
-            ->line('Obrigado por usar a nossa aplicação!');
+            ->line('Obrigado por usar a nossa aplicação!')
+            ->salutation('Atenciosamente, Equipe ' . $companyName);
     }
 
     public function toDatabase($notifiable)

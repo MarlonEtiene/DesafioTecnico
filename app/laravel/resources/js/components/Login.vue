@@ -109,7 +109,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary" :disabled="loading">
-                            {{ loading ? 'Carregando...' : (isLogin ? 'Login' : 'Register') }}
+                            {{ loading ? 'Carregando...' : (isLogin ? 'Login' : 'Registrar') }}
                         </button>
                     </form>
 
