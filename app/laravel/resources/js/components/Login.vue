@@ -198,7 +198,6 @@ export default {
                 if (error.response?.status === 422) {
                     this.validationErrors = error.response.data.errors || error.response.data;
                 } else if (error.response?.status === 401) {
-                    // Trata o erro 401, exibindo a mensagem do backend ou uma padrão
                     this.error = error.response?.data?.message || 'E-mail ou senha inválidos.';
                 } else {
                     this.error = error.response?.data?.message || 'Ocorreu um erro ao processar sua solicitação.';

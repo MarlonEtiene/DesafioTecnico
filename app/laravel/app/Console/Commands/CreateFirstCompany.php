@@ -19,10 +19,10 @@ class CreateFirstCompany extends Command
             return;
         }
 
-        $companyName = $this->ask('Enter company name:');
-        $userName = $this->ask('Enter user name:');
-        $userEmail = $this->ask('Enter user email:');
-        $userPassword = $this->secret('Enter user password:');
+        $companyName = $this->ask('Nome da empresa:');
+        $userName = $this->ask('Nome do usuário:');
+        $userEmail = $this->ask('Email do usuário:');
+        $userPassword = $this->secret('Senha do usuário:');
 
         $company = Company::create([
             'name' => $companyName,
@@ -35,8 +35,8 @@ class CreateFirstCompany extends Command
             'company_id' => $company->id,
         ]);
 
-        $this->info('Company and user created successfully!');
-        $this->info('Company ID: ' . $company->id);
-        $this->info('User ID: ' . $user->id);
+        $this->info('Empresa e usuário criados com sucesso!');
+        $this->info('ID da Empresa: ' . $company->id);
+        $this->info('ID do usuário: ' . $user->id);
     }
 }

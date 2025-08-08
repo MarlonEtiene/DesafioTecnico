@@ -96,9 +96,9 @@ export default new Vuex.Store({
         async register({ commit }, userData) {
             try {
                 const response = await axios.post('/auth/register', userData)
-                const { access_token, user } = response.data
+                const { token, user } = response.data
 
-                commit('SET_TOKEN', access_token)
+                commit('SET_TOKEN', token)
                 commit('SET_USER', user)
 
                 return response.data
